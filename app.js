@@ -4,7 +4,8 @@ let path = require('path');
 const express = require('express'),
     app = express(),
     port = parseInt(process.env.PORT, 10) || 3000;
-
+let UsersController = require('./middleware/controllers/handlers/UsersController.js');
+let AuthController = require('./middleware/controllers/auth/AuthController.js');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(function (req, res, next) {
@@ -13,7 +14,10 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "x-access-token, Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 app.use(cookieParser());
+app.use('/api/v1', UsersController);
+app.use('/api/v1', AuthController);
 
 // Create link to Angular build directory
 app.use(express.static(__dirname + '/dist/diploma'));
