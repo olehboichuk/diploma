@@ -17,5 +17,5 @@ module.exports = {
   find_user_with_id,
   find_user_with_login,
   change_password,
-  createUser,
+  createUser
 }

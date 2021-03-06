@@ -10,7 +10,7 @@ const {Pool} = require('pg');
 let bcrypt = require('bcryptjs');
 let jwt = require('jsonwebtoken');
 
-const authRequests = require('../../SQL/queryes/auth.js');
+const authRequests = require('../../sql/queryes/auth.js');
 let config = require('../config.js');
 
 const pool = new Pool({
