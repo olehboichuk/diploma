@@ -8,12 +8,17 @@ import {RegisterComponent} from './view/register/register.component';
 import {AuthService} from './services/auth.service';
 import {AuthInterceptor} from './services/AuthInterceptor';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
-import { HomeComponent } from './view/home/home.component';
+import {HomeComponent} from './view/home/home.component';
+import {DocumentService} from './services/document.service';
+import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
+import {environment} from '../environments/environment';
+
+const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
 
 @NgModule({
   declarations: [
@@ -30,10 +35,13 @@ import { HomeComponent } from './view/home/home.component';
     MatFormFieldModule,
     MatInputModule,
     HttpClientModule,
-    MatIconModule
+    MatIconModule,
+    FormsModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     AuthService,
+    DocumentService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

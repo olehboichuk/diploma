@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  apiUrl: ''
+  apiUrl: '',
+  socketUrl: 'https://duo-code.herokuapp.com'
 };
 
 export const AUTH_API = {

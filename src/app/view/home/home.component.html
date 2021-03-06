@@ -1,1 +1,6 @@
-<p>home works!</p>
+<!--<app-document></app-document>-->
+<button (click)="addNEw()">add</button>
+<button (click)="goToChat()">goToChat</button>
+<label>
+  <textarea [(ngModel)]='document.doc' (keyup)='editDoc()' placeholder='Start typing...'></textarea>
+</label>

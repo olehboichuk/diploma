@@ -4,6 +4,7 @@ let path = require('path');
 const express = require('express'),
     app = express(),
     port = parseInt(process.env.PORT, 10) || 3000;
+
 let UsersController = require('./middleware/controllers/handlers/UsersController.js');
 let AuthController = require('./middleware/controllers/auth/AuthController.js');
 app.use(express.json());
@@ -26,7 +27,43 @@ app.get('/*', function(req,res) {
   res.sendFile(path.join(__dirname+'/dist/diploma/index.html'));
 });
 
-app.listen(port, () => {
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+const documents = {};
+
+io.on('connection', socket => {
+  let previousId;
+  const safeJoin = currentId => {
+    socket.leave(previousId);
+    socket.join(currentId, () => console.log(`Socket ${socket.id} joined room ${currentId}`));
+    previousId = currentId;
+  }
+
+  socket.on('getDoc', docId => {
+    safeJoin(docId);
+    socket.emit('document', documents[docId]);
+  });
+
+  socket.on('addDoc', doc => {
+    documents[doc.id] = doc;
+    safeJoin(doc.id);
+    io.emit('documents', Object.keys(documents));
+    socket.emit('document', doc);
+  });
+
+  socket.on('editDoc', doc => {
+    documents[doc.id] = doc;
+    socket.to(doc.id).emit('document', doc);
+  });
+
+  io.emit('documents', Object.keys(documents));
+
+  console.log(`Socket ${socket.id} has connected`);
+});
+
+
+http.listen(port, () => {
     console.log('Server started on port 3000');
 });
 
