@@ -9,3 +9,8 @@ export const AUTH_API = {
   register: '/api/v1/register',
   logout: '/api/v1/logout'
 };
+
+export const FILE_API = {
+  files: '/api/v1/user/files',
+  file: '/api/v1/user/file'
+};

@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {startWith} from 'rxjs/operators';
 import {Document} from '../../models/document.model';
 import {DocumentService} from '../../services/document.service';
 
@@ -34,6 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   addNEw(): void {
     this.documentService.newDocument();
+    this.documentService.getDocument('text');
   }
 
   goToChat(): void {

@@ -17,6 +17,12 @@ import {HomeComponent} from './view/home/home.component';
 import {DocumentService} from './services/document.service';
 import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
 import {environment} from '../environments/environment';
+import {MyFilesComponent} from './view/my-files/my-files.component';
+import {NavbarComponent} from './view/navbar/navbar.component';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {FileDropDirective} from './directives/file-drop.directive';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {FileService} from './services/file.service';
 
 const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
 
@@ -25,7 +31,10 @@ const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent
+    HomeComponent,
+    MyFilesComponent,
+    NavbarComponent,
+    FileDropDirective
   ],
   imports: [
     BrowserModule,
@@ -36,12 +45,15 @@ const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
     MatInputModule,
     HttpClientModule,
     MatIconModule,
+    MatToolbarModule,
     FormsModule,
+    DragDropModule,
     SocketIoModule.forRoot(config)
   ],
   providers: [
     AuthService,
     DocumentService,
+    FileService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

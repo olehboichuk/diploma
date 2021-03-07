@@ -20,6 +20,7 @@ CREATE TABLE files
     id          SERIAL NOT NULL,
     invite_link SERIAL NOT NULL UNIQUE,
     name        TEXT   NOT NULL,
+    data        TEXT   NOT NULL,
     PRIMARY KEY (id)
 );
 
@@ -28,7 +29,7 @@ CREATE TABLE users_files
     id_user BIGINT  NOT NULL,
     id_file INTEGER NOT NULL,
     FOREIGN KEY (id_user) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    FOREIGN KEY (id_file) REFERENCES files (id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (id_file) REFERENCES files (id) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (id_user, id_file)
 );
 

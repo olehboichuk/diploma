@@ -14,6 +14,11 @@ export const AUTH_API = {
   logout: '/api/v1/logout'
 };
 
+export const FILE_API = {
+  files: '/api/v1/user/files',
+  file: '/api/v1/user/file'
+};
+
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
