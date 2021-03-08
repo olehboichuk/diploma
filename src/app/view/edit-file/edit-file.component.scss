@@ -3,8 +3,23 @@ textarea {
   width: calc(100% - 235px);
   height: 100%;
   right: 0;
+  top: 64px;
   font-size: 18pt;
   resize: none;
   border: none;
   padding: 20px 0px 20px 15px;
+}
+
+span {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  font-family: 'Roboto', Tahoma, Geneva, Verdana, sans-serif;
+  color: #818181;
+  display: block;
+}
+
+.selected {
+  color: #e1e1e1;
+  cursor: pointer;
 }

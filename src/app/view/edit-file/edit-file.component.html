@@ -1,4 +1,6 @@
 <app-navbar></app-navbar>
+<span>Invite link:</span>
+<span class="selected" (click)="copyInputMessage(file.invite_link)">{{ file.invite_link }}</span>
 <label>
   <textarea [(ngModel)]='file.data' (keyup)='editDoc()' placeholder='Start typing...'></textarea>
 </label>
