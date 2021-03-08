@@ -18,7 +18,7 @@ CREATE TABLE users
 CREATE TABLE files
 (
     id          SERIAL NOT NULL,
-    invite_link SERIAL NOT NULL UNIQUE,
+    invite_link TEXT   NOT NULL UNIQUE,
     name        TEXT   NOT NULL,
     data        TEXT   NOT NULL,
     PRIMARY KEY (id)

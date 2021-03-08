@@ -8,7 +8,7 @@
       <h3>EDIT</h3>
     </div>
     <div class="container" appFileDrop (fileDropped)="onFileDropped($event)">
-      <input type="file" #fileDropRef id="fileDropRef" multiple (change)="fileBrowseHandler($event.target.files)"/>
+      <input type="file" id="fileDropRef" multiple (change)="fileBrowseHandler($event.target.files)"/>
       <img src="assets/images/file.svg" alt="">
       <h3>Drag and drop file here</h3>
       <h3>or</h3>

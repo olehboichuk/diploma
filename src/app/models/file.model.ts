@@ -1,4 +1,5 @@
 export interface IFileModel {
+  invite_link?: string;
   name: string;
   data: string;
   progress?: number;
@@ -6,5 +7,4 @@ export interface IFileModel {
 
 export interface IFullFileModel extends IFileModel {
   id?: string;
-  invite_link?: string;
 }

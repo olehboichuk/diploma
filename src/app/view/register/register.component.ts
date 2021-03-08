@@ -4,6 +4,7 @@ import {ErrorStateMatcher} from '@angular/material/core';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {IRegisterModel} from '../../models/auth.model';
+import {ToastrService} from 'ngx-toastr';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -28,7 +29,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
-              private router: Router) {
+              private router: Router,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -58,18 +60,14 @@ export class RegisterComponent implements OnInit {
     this.registerForm.controls.confirmPassword.disable();
     this.authService.register(user)
       .subscribe(data => {
-          console.log('success');
           this.router.navigate(['/login']);
-          console.error(data);
         },
         error => {
           if (error.error.message) {
-            this.error = error.error.message;
+            this.toastr.error(error.error.message, 'ERROR!');
           } else {
-            this.error = 'No Internet connection';
+            this.toastr.error('No Internet connection', 'ERROR!');
           }
-          console.warn('REGISTRATION DOESN`T WORK');
-          console.error(error);
           this.loading = false;
           this.registerForm.controls.login.enable();
           this.registerForm.controls.first_name.enable();
@@ -87,11 +85,9 @@ export function MustMatch(controlName: string, matchingControlName: string): any
     const matchingControl = formGroup.controls[matchingControlName];
 
     if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-      // return if another validator has already found an error on the matchingControl
       return;
     }
 
-    // set error on matchingControl if validation fails
     if (control.value !== matchingControl.value) {
       matchingControl.setErrors({mustMatch: true});
     } else {

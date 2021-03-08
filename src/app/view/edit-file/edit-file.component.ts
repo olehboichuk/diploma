@@ -4,6 +4,7 @@ import {FileSocketService} from '../../services/file-socket.service';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {FileService} from '../../services/file.service';
 import {IFullFileModel} from '../../models/file.model';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-file',
@@ -19,7 +20,8 @@ export class EditFileComponent implements OnInit, OnDestroy {
   constructor(private fileSocketService: FileSocketService,
               private fileService: FileService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private toastr: ToastrService) {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('file_id')) {
         this.fileId = paramMap.get('file_id');
@@ -27,7 +29,7 @@ export class EditFileComponent implements OnInit, OnDestroy {
           this.file = res;
           this.addNewFile();
         }, error => {
-          alert(error.error.message);
+          this.toastr.error(error.error.message, 'ERROR!');
           this.router.navigate(['/my-files']);
         });
       }
@@ -37,7 +39,7 @@ export class EditFileComponent implements OnInit, OnDestroy {
           this.fileId = res.id;
           this.goToChat();
         }, error => {
-          alert(error.error.message);
+          this.toastr.error(error.error.message, 'ERROR!');
           this.router.navigate(['/my-files']);
         });
       }
@@ -80,6 +82,7 @@ export class EditFileComponent implements OnInit, OnDestroy {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
+    this.toastr.success( 'Copied');
   }
 
 }

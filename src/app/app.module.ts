@@ -25,6 +25,7 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
 import {FileService} from './services/file.service';
 import {InviteDialogComponent} from './view/invite-dialog/invite-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {ToastrModule } from 'ngx-toastr';
 
 const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
 
@@ -52,7 +53,8 @@ const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
     FormsModule,
     DragDropModule,
     SocketIoModule.forRoot(config),
-    MatDialogModule
+    MatDialogModule,
+    ToastrModule.forRoot()
   ],
   entryComponents: [InviteDialogComponent],
   providers: [

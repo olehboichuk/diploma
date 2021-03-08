@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {ILoginModel} from '../../models/auth.model';
 import {AuthService} from '../../services/auth.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -47,9 +49,9 @@ export class LoginComponent implements OnInit {
         },
         error => {
           if (error.error.message) {
-            this.error = error.error.message;
+            this.toastr.error(error.error.message, 'ERROR!');
           } else {
-            this.error = 'No Internet connection';
+            this.toastr.error('No Internet connection', 'ERROR!');
           }
           this.loading = false;
           this.loginForm.controls.login.enable();

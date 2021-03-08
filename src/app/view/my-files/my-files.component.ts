@@ -3,6 +3,7 @@ import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {IFileModel, IFullFileModel} from '../../models/file.model';
 import {FileService} from '../../services/file.service';
 import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-my-files',
@@ -12,7 +13,8 @@ import {Router} from '@angular/router';
 export class MyFilesComponent implements OnInit {
 
   constructor(private fileService: FileService,
-              private router: Router) {
+              private router: Router,
+              private toastr: ToastrService) {
   }
 
   files: Array<IFullFileModel> = [];
@@ -38,6 +40,9 @@ export class MyFilesComponent implements OnInit {
     const id = this.files[index.previousIndex].id;
     this.fileService.deleteFile(id).subscribe(res => {
       this.files.splice(index.previousIndex, 1);
+      this.toastr.success('File deleted', 'Done!');
+    }, error => {
+      this.toastr.error(error.error.message, 'ERROR!');
     });
   }
 
@@ -71,12 +76,15 @@ export class MyFilesComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (evt) => {
         const newFile = {
+          invite_link: Math.random().toString(36).substr(2, 9),
           name: item.name,
           data: evt.target.result,
         } as IFileModel;
         this.fileService.addFile(newFile).subscribe(res => {
           res[0].progress = 0;
           this.files.push(res[0]);
+        }, error => {
+          this.toastr.error('Can`t add this type of file', 'ERROR!');
         });
       };
       reader.readAsText(item);
