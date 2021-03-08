@@ -1,0 +1,17 @@
+<div class="component-main theme-dark">
+  <div class="exit" (click)="closeModal()"></div>
+  <header class="main-header">
+    <h2 class="main-title">Join to edit</h2>
+  </header>
+  <section class="body-input">
+    <p class="input-title" [ngClass]="{'enable-color': link}">Link Address</p>
+    <input class="add-server-input" [ngClass]="{'enable-border': link}" placeholder="Invite link"
+           (keyup.enter)="buttonElement.click()"
+           [(ngModel)]="link">
+  </section>
+  <footer class="btn-footer">
+    <button class="cancel-btn" (click)="closeModal()">Cancel</button>
+    <button class="submit-btn save-btn" [mat-dialog-close]="link" #buttonElement
+            [disabled]="!link">GO</button>
+  </footer>
+</div>

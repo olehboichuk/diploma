@@ -1,7 +1,7 @@
 <mat-toolbar>
   <span>DUO-CODE</span>
   <span class="example-spacer"></span>
-  <span class="user-name link" routerLink="/home">home</span>
+  <span class="user-name link" (click)="openDialog()">join</span>
   <span class="user-name link" routerLink="/my-files">files</span>
   <span class="user-name">{{userName}}</span>
   <mat-icon class="logout-btn" (click)="logout()">logout</mat-icon>

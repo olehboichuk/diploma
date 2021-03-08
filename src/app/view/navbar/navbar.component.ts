@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {InviteDialogComponent} from '../invite-dialog/invite-dialog.component';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +12,8 @@ import {Router} from '@angular/router';
 export class NavbarComponent implements OnInit {
 
   constructor(private router: Router,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private matDialog: MatDialog) {
   }
 
   userName: string;
@@ -25,4 +28,18 @@ export class NavbarComponent implements OnInit {
       this.router.navigate(['/login']);
     });
   }
+
+  openDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    const modalDialog = this.matDialog.open(InviteDialogComponent, dialogConfig);
+
+    modalDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate(['/edit-file-invite', result]);
+      }
+    });
+
+  }
+
 }

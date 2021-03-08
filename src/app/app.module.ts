@@ -13,8 +13,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
-import {HomeComponent} from './view/home/home.component';
-import {DocumentService} from './services/document.service';
+import {EditFileComponent} from './view/edit-file/edit-file.component';
+import {FileSocketService} from './services/file-socket.service';
 import {SocketIoConfig, SocketIoModule} from 'ngx-socket-io';
 import {environment} from '../environments/environment';
 import {MyFilesComponent} from './view/my-files/my-files.component';
@@ -23,6 +23,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {FileDropDirective} from './directives/file-drop.directive';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {FileService} from './services/file.service';
+import {InviteDialogComponent} from './view/invite-dialog/invite-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
 
@@ -31,10 +33,11 @@ const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    HomeComponent,
+    EditFileComponent,
     MyFilesComponent,
     NavbarComponent,
-    FileDropDirective
+    FileDropDirective,
+    InviteDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -48,11 +51,13 @@ const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
     MatToolbarModule,
     FormsModule,
     DragDropModule,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    MatDialogModule
   ],
+  entryComponents: [InviteDialogComponent],
   providers: [
     AuthService,
-    DocumentService,
+    FileSocketService,
     FileService,
     {
       provide: HTTP_INTERCEPTORS,

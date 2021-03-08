@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import {IFileModel, IFullFileModel} from '../../models/file.model';
 import {FileService} from '../../services/file.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-my-files',
@@ -10,7 +11,8 @@ import {FileService} from '../../services/file.service';
 })
 export class MyFilesComponent implements OnInit {
 
-  constructor(private fileService: FileService) {
+  constructor(private fileService: FileService,
+              private router: Router) {
   }
 
   files: Array<IFullFileModel> = [];
@@ -40,7 +42,7 @@ export class MyFilesComponent implements OnInit {
   }
 
   editFile($event: CdkDragDrop<any>): void {
-    console.log($event);
+    this.router.navigate(['/edit-file', this.files[$event.previousIndex].id]);
   }
 
   drop(event: CdkDragDrop<string[]>): void {

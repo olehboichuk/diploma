@@ -12,7 +12,7 @@ const pool = new Pool({
   ssl: true,
 });
 
-router.route('/user/files')
+router.route('/files')
   .get((req, res) => {
     let token = req.header('x-access-token');
     let id = jwt.decode(token).id;
@@ -22,7 +22,7 @@ router.route('/user/files')
     });
   });
 
-router.route('/user/file')
+router.route('/file')
   .post((req, res) => {
     let token = req.header('x-access-token');
     let id = jwt.decode(token).id;
@@ -36,13 +36,14 @@ router.route('/user/file')
     });
   });
 
-router.route('/user/file/:id_file')
+router.route('/file/:id_file')
   .get((req, res) => {
     let token = req.header('x-access-token');
     let id = jwt.decode(token).id;
     pool.query(userRequests.find_user_file, [id, req.params.id_file], (err, result) => {
       if (err) return res.status(500).send({message: 'Error on the server.'});
-      res.status(200).json(result.rows)
+      if (!result.rows[0]) return res.status(403).send({message: 'Error: You don`t have access to this file.'});
+      res.status(200).json(result.rows[0])
     });
   })
   .delete((req, res) => {
@@ -51,5 +52,14 @@ router.route('/user/file/:id_file')
       res.status(200).json(result.rows)
     });
   });
+
+router.route('/file/link/:invite_link')
+  .get((req, res) => {
+    pool.query(userRequests.find_file_by_link, [req.params.invite_link], (err, result) => {
+      if (err) return res.status(500).send({message: 'Error: Wrong link.'});
+      if (!result.rows[0]) return res.status(403).send({message: 'Error: Wrong link.'});
+      res.status(200).json(result.rows[0])
+    });
+  })
 
 module.exports = router;

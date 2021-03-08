@@ -5,7 +5,7 @@ const express = require('express'),
     app = express(),
     port = parseInt(process.env.PORT, 10) || 3000;
 
-let UsersController = require('./middleware/controllers/user/UsersController.js');
+let UsersController = require('./middleware/controllers/file/FilesController.js');
 let AuthController = require('./middleware/controllers/auth/AuthController.js');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -40,24 +40,24 @@ io.on('connection', socket => {
     previousId = currentId;
   }
 
-  socket.on('getDoc', docId => {
+  socket.on('getFile', docId => {
     safeJoin(docId);
-    socket.emit('document', documents[docId]);
+    socket.emit('file', documents[docId]);
   });
 
-  socket.on('addDoc', doc => {
+  socket.on('addFile', doc => {
+    documents[doc.file.id] = doc.file;
+    safeJoin(doc.file.id);
+    // io.emit('documents', Object.keys(documents));
+    socket.emit('file', doc.file);
+  });
+
+  socket.on('editFile', doc => {
     documents[doc.id] = doc;
-    safeJoin(doc.id);
-    io.emit('documents', Object.keys(documents));
-    socket.emit('document', doc);
+    socket.to(doc.id).emit('file', doc);
   });
 
-  socket.on('editDoc', doc => {
-    documents[doc.id] = doc;
-    socket.to(doc.id).emit('document', doc);
-  });
-
-  io.emit('documents', Object.keys(documents));
+  // io.emit('documents', Object.keys(documents));
 
   console.log(`Socket ${socket.id} has connected`);
 });

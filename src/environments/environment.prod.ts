@@ -11,6 +11,7 @@ export const AUTH_API = {
 };
 
 export const FILE_API = {
-  files: '/api/v1/user/files',
-  file: '/api/v1/user/file'
+  files: '/api/v1/files',
+  file: '/api/v1/file',
+  link: '/api/v1/file/link'
 };
