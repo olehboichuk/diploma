@@ -5,6 +5,7 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {FileService} from '../../services/file.service';
 import {IFullFileModel} from '../../models/file.model';
 import {ToastrService} from 'ngx-toastr';
+import {CodeModel} from '@ngstack/code-editor';
 
 @Component({
   selector: 'app-edit-file',
@@ -16,6 +17,24 @@ export class EditFileComponent implements OnInit, OnDestroy {
   private fileId: string;
   private inviteLink: string;
   public file: IFullFileModel = {data: '', name: ''};
+  theme = 'vs-dark';
+
+  codeModel: CodeModel = {
+    language: 'typescript',
+    uri: 'main.json',
+    value: this.file.data
+  };
+
+  options = {
+    contextmenu: true,
+    minimap: {
+      enabled: true
+    }
+  };
+
+  onCodeChanged(value): void {
+    this.file.data = value;
+  }
 
   constructor(private fileSocketService: FileSocketService,
               private fileService: FileService,
@@ -27,6 +46,7 @@ export class EditFileComponent implements OnInit, OnDestroy {
         this.fileId = paramMap.get('file_id');
         this.fileService.getUserFileById(this.fileId).subscribe(res => {
           this.file = res;
+          this.codeModel.value = this.file.data;
           this.addNewFile();
         }, error => {
           this.toastr.error(error.error.message, 'ERROR!');
@@ -37,6 +57,7 @@ export class EditFileComponent implements OnInit, OnDestroy {
         this.inviteLink = paramMap.get('invite_link');
         this.fileService.getFileByLink(this.inviteLink).subscribe(res => {
           this.fileId = res.id;
+          this.codeModel.value = this.file.data;
           this.goToChat();
         }, error => {
           this.toastr.error(error.error.message, 'ERROR!');
@@ -82,7 +103,18 @@ export class EditFileComponent implements OnInit, OnDestroy {
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
-    this.toastr.success( 'Copied');
+    this.toastr.success('Copied');
   }
 
+  save(): void {
+    this.fileService.saveFileChanges(this.file).subscribe(res => {
+      this.toastr.success('File changes saved');
+    }, error => {
+      this.toastr.error(error.error.message, 'ERROR!');
+    });
+  }
+
+  download(): void {
+    this.toastr.success('Downloaded');
+  }
 }

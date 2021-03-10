@@ -26,9 +26,9 @@ import {FileService} from './services/file.service';
 import {InviteDialogComponent} from './view/invite-dialog/invite-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {ToastrModule } from 'ngx-toastr';
+import { CodeEditorModule } from '@ngstack/code-editor';
 
 const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +54,8 @@ const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
     DragDropModule,
     SocketIoModule.forRoot(config),
     MatDialogModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    CodeEditorModule.forRoot()
   ],
   entryComponents: [InviteDialogComponent],
   providers: [

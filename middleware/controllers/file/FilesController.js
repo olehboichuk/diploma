@@ -34,6 +34,12 @@ router.route('/file')
         res.status(200).json(result.rows)
       });
     });
+  })
+  .put((req, res) => {
+    pool.query(userRequests.change_file, [req.body.id, req.body.name, req.body.data], (err, result) => {
+      if (err) return res.status(500).send({message: 'Error on the server.'});
+      res.status(200).json(result.rows)
+    });
   });
 
 router.route('/file/:id_file')

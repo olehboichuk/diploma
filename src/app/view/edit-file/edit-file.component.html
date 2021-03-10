@@ -1,6 +1,17 @@
 <app-navbar></app-navbar>
 <span>Invite link:</span>
 <span class="selected" (click)="copyInputMessage(file.invite_link)">{{ file.invite_link }}</span>
+<div class="btns">
+  <button class="btn-change" (click)="save()">Save</button>
+  <button class="btn-change" (click)="download()">Download</button>
+</div>
+<span>Share settings:</span>
+
 <label>
-  <textarea [(ngModel)]='file.data' (keyup)='editDoc()' placeholder='Start typing...'></textarea>
+  <ngs-code-editor class="editor"
+    [theme]="theme"
+    [codeModel]="codeModel"
+    [options]="options"
+    (valueChanged)="onCodeChanged($event)">
+  </ngs-code-editor>
 </label>

@@ -24,6 +24,10 @@ export class FileService {
     return this.http.post<IFullFileModel>(environment.apiUrl + FILE_API.file, body);
   }
 
+  public saveFileChanges(body: IFullFileModel): Observable<IFullFileModel> {
+    return this.http.put<IFullFileModel>(environment.apiUrl + FILE_API.file, body);
+  }
+
   public deleteFile(id: string): Observable<any> {
     return this.http.delete(`${environment.apiUrl}${FILE_API.file}/${id}`);
   }

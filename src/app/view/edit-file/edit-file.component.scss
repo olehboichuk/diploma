@@ -10,6 +10,18 @@ textarea {
   padding: 20px 0px 20px 15px;
 }
 
+.editor {
+  position: fixed;
+  width: calc(100% - 235px);
+  height: 100%;
+  right: 0;
+  top: 64px;
+  font-size: 18pt;
+  resize: none;
+  border: none;
+  padding: 20px 0 20px 15px;
+}
+
 span {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
@@ -22,4 +34,26 @@ span {
 .selected {
   color: #e1e1e1;
   cursor: pointer;
+}
+
+.btn-change {
+  cursor: pointer;
+  outline: none;
+  width: 90px;
+  height: 32px;
+  border: none;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  color: #C9CFD4;
+  background: #232323;
+  border-radius: 4px;
+}
+
+.btns {
+  width: 220px;
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 8px;
 }
