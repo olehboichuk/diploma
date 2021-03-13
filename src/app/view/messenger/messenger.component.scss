@@ -4,7 +4,7 @@
   width: 335px;
   bottom: 0;
   position: absolute;
-  height: 440px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -23,10 +23,8 @@
 }
 
 .send-field {
-  box-shadow: 0px 0px 20px rgba(153, 163, 174, 0.14654);
   display: flex;
   justify-content: flex-start;
-  border-top: 1px solid #f5f6f9;
   height: 36px;
 }
 
@@ -62,6 +60,17 @@
 }
 
 /*----------------------------------------message-field----------------------------------------*/
+
+.chat{
+  position: absolute;
+  top: calc(100% / 2 - 32px);
+  right: calc(100% / 2 - 18px);
+  color: #8b8378;
+  font-size: 37px;
+  font-style: italic;
+  font-variant: all-petite-caps;
+}
+
 
 .message-field {
   overflow-y: auto;

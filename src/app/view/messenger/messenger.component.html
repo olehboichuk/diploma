@@ -1,5 +1,6 @@
 <article class="messages">
   <div #listOfMessages class="message-field">
+    <div *ngIf="messages.length === 0" class="chat">Chat</div>
     <article class="message" *ngFor="let message of messages" >
       <section [class]="checkUser(message.user)?'message__user':'message__friend'">
         <div class="message__content">
