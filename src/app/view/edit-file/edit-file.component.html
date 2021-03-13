@@ -2,16 +2,67 @@
 <span>Invite link:</span>
 <span class="selected" (click)="copyInputMessage(file.invite_link)">{{ file.invite_link }}</span>
 <div class="btns">
-  <button class="btn-change" (click)="save()">Save</button>
-  <button class="btn-change" (click)="download()">Download</button>
+  <button class="btn-change" [disabled]="!file.properties.save && !owner" (click)="save()">Save</button>
+  <button class="btn-change" [disabled]="!file.properties.download && !owner" (click)="download()">Download</button>
 </div>
-<span>Share settings:</span>
+<div class="settings">
+  <span *ngIf="owner">Share settings:</span>
+  <div *ngIf="owner" class="editing">
+    <div class="setting-text">Edit</div>
+    <label class="switch">
+      <div class="switch-container">
+        <input type="checkbox" [checked]="file.properties.readonly" [(ngModel)]="file.properties.readonly"
+               (ngModelChange)='changeInput()'>
+        <span class="slider round"></span>
+      </div>
+    </label>
+  </div>
+  <div *ngIf="owner" class="editing">
+    <div class="setting-text">Save</div>
+    <label class="switch">
+      <div class="switch-container">
+        <input type="checkbox" [checked]="file.properties.save" [(ngModel)]="file.properties.save"
+               (ngModelChange)='changeInput()'>
+        <span class="slider round"></span>
+      </div>
+    </label>
+  </div>
+  <div *ngIf="owner" class="editing">
+    <div class="setting-text">Download</div>
+    <label class="switch">
+      <div class="switch-container">
+        <input type="checkbox" [checked]="file.properties.download" [(ngModel)]="file.properties.download"
+               (ngModelChange)='changeInput()'>
+        <span class="slider round"></span>
+      </div>
+    </label>
+  </div>
+  <div *ngIf="owner" class="editing">
+    <div class="setting-text">Language</div>
+    <div class="data-source">
+      <select class="source-type" [value]="codeModel.language" [(ngModel)]="codeModel.language"
+              (ngModelChange)='changeLanguage($event)'>
+        <option *ngFor="let source of languages">{{source}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="editing">
+    <div class="setting-text">Theme</div>
+    <div class="data-source">
+      <select class="source-type" [value]="theme" [(ngModel)]="theme"
+              (ngModelChange)='changeTheme($event)'>
+        <option *ngFor="let source of themes" [value]="source.option">{{source.name}}</option>
+      </select>
+    </div>
+  </div>
+</div>
 
 <label>
   <ngs-code-editor class="editor"
-    [theme]="theme"
-    [codeModel]="codeModel"
-    [options]="options"
-    (valueChanged)="onCodeChanged($event)">
+                   [readOnly]="!file.properties.readonly && !owner"
+                   [theme]="theme"
+                   [codeModel]="codeModel"
+                   [options]="options"
+                   (valueChanged)="onCodeChanged($event)">
   </ngs-code-editor>
 </label>

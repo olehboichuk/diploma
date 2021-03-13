@@ -16,13 +16,14 @@ export class EditFileComponent implements OnInit, OnDestroy {
   private docSu$: Subscription;
   private fileId: string;
   private inviteLink: string;
-  public file: IFullFileModel = {data: '', name: ''};
+  public file: IFullFileModel = {data: '', name: '', properties: {readonly: true, save: true, download: true, language: 'text'}};
+  public owner = false;
   theme = 'vs-dark';
 
   codeModel: CodeModel = {
-    language: 'typescript',
-    uri: 'main.json',
-    value: this.file.data
+    language: '',
+    uri: '',
+    value: ''
   };
 
   options = {
@@ -31,9 +32,15 @@ export class EditFileComponent implements OnInit, OnDestroy {
       enabled: true
     }
   };
+  languages: Array<string> = ['text', 'abap', 'aes', 'apex', 'bat', 'c', 'coffeescript', 'cpp', 'csharp', 'csp', 'css', 'dart', 'dockerfile', 'fsharp', 'go', 'graphql', 'handlebars', 'html', 'java', 'javascript', 'json', 'julia', 'kotlin', 'less', 'lexon', 'lua', 'msdax', 'mysql', 'objective-c', 'pascal', 'pascaligo', 'perl', 'pgsql', 'php', 'plaintext', 'powershell', 'python', 'r', 'redis', 'ruby', 'rust', 'scala', 'scheme', 'scss', 'shell', 'sol', 'sql', 'st', 'swift', 'twig', 'typescript', 'xml', 'yaml'];
+  themes: Array<any> = [{option: 'vs', name: 'Light'}, {option: 'vs-dark', name: 'Dark'}, {option: 'hc-black', name: 'High contrast'}];
 
   onCodeChanged(value): void {
-    this.file.data = value;
+    if (this.file.data !== value) {
+      this.file.data = value;
+      this.editDoc();
+    }
+
   }
 
   constructor(private fileSocketService: FileSocketService,
@@ -44,9 +51,20 @@ export class EditFileComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       if (paramMap.has('file_id')) {
         this.fileId = paramMap.get('file_id');
+        this.owner = true;
         this.fileService.getUserFileById(this.fileId).subscribe(res => {
           this.file = res;
-          this.codeModel.value = this.file.data;
+          this.file.properties = {
+            save: true,
+            download: true,
+            readonly: true,
+            language: 'text'
+          };
+          this.codeModel = {
+            language: this.file.properties.language,
+            uri: this.file.name,
+            value: this.file.data
+          };
           this.addNewFile();
         }, error => {
           this.toastr.error(error.error.message, 'ERROR!');
@@ -71,6 +89,11 @@ export class EditFileComponent implements OnInit, OnDestroy {
     this.docSu$ = this.fileSocketService.currentFile.subscribe(file => {
       if (file) {
         this.file = file;
+        this.codeModel = {
+          language: this.file.properties.language,
+          uri: this.file.name,
+          value: this.file.data
+        };
       }
     });
   }
@@ -115,6 +138,35 @@ export class EditFileComponent implements OnInit, OnDestroy {
   }
 
   download(): void {
-    this.toastr.success('Downloaded');
+    this.downloadObject(this.file.data, this.file.name);
   }
+
+  changeInput(): void {
+    this.editDoc();
+  }
+
+  changeLanguage(value): void {
+    this.codeModel = {
+      language: value,
+      uri: this.file.name,
+      value: this.file.data
+    };
+    this.file.properties.language = value;
+    this.editDoc();
+  }
+
+  changeTheme($event: any): void {
+    this.theme = $event;
+  }
+
+  downloadObject(exportObj, exportName): void {
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(exportObj);
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute('href', dataStr);
+    downloadAnchorNode.setAttribute('download', exportName);
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  }
+
 }
