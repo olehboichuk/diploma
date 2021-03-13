@@ -27,6 +27,7 @@ import {InviteDialogComponent} from './view/invite-dialog/invite-dialog.componen
 import {MatDialogModule} from '@angular/material/dialog';
 import {ToastrModule } from 'ngx-toastr';
 import { CodeEditorModule } from '@ngstack/code-editor';
+import { MessengerComponent } from './view/messenger/messenger.component';
 
 const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
 @NgModule({
@@ -38,7 +39,8 @@ const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
     MyFilesComponent,
     NavbarComponent,
     FileDropDirective,
-    InviteDialogComponent
+    InviteDialogComponent,
+    MessengerComponent
   ],
   imports: [
     BrowserModule,

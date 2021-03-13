@@ -1,0 +1,16 @@
+<article class="messages">
+  <div #listOfMessages class="message-field">
+    <article class="message" *ngFor="let message of messages" >
+      <section [class]="checkUser(message.user)?'message__user':'message__friend'">
+        <div class="message__content">
+          <span class="message__text">{{message.message}}</span>
+          <time class="message__time">{{message.time}}</time>
+          <span *ngIf="!checkUser(message.user)" class="message__username">{{message.user}}</span>
+        </div>
+      </section>
+    </article>
+  </div>
+  <article class="send-field">
+    <input type="text" class="send-field__input" [(ngModel)]="message" (keyup.enter)="sendMessage(message)" placeholder='Write a message...'>
+  </article>
+</article>

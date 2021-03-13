@@ -57,7 +57,9 @@ io.on('connection', socket => {
     socket.to(doc.id).emit('file', doc);
   });
 
-  // io.emit('documents', Object.keys(documents));
+  socket.on('sendMessage', message =>{
+    socket.to(previousId).emit('message', message);
+  });
 
   console.log(`Socket ${socket.id} has connected`);
 });
