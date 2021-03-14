@@ -28,6 +28,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {ToastrModule } from 'ngx-toastr';
 import { CodeEditorModule } from '@ngstack/code-editor';
 import { MessengerComponent } from './view/messenger/messenger.component';
+import {MatBadgeModule} from '@angular/material/badge';
 
 const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
 @NgModule({
@@ -57,7 +58,8 @@ const config: SocketIoConfig = {url: environment.socketUrl, options: {}};
     SocketIoModule.forRoot(config),
     MatDialogModule,
     ToastrModule.forRoot(),
-    CodeEditorModule.forRoot()
+    CodeEditorModule.forRoot(),
+    MatBadgeModule
   ],
   entryComponents: [InviteDialogComponent],
   providers: [

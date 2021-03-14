@@ -15,3 +15,7 @@ export interface ILoginResponseModel {
   login?: string;
   message?: string;
 }
+
+export interface IUserModel {
+  login: string;
+}

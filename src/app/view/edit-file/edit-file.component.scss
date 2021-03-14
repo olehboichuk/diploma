@@ -46,7 +46,7 @@ span {
   font-size: 14px;
   line-height: 16px;
   color: #C9CFD4;
-  background: #232323;
+  background: #000000;
   border-radius: 4px;
 
   &:disabled{
@@ -56,7 +56,7 @@ span {
 }
 
 .btns {
-  width: 220px;
+  width: 335px;
   display: flex;
   justify-content: space-evenly;
   margin-top: 8px;
@@ -160,4 +160,24 @@ span {
       border-radius: 50%;
     }
   }
+}
+
+.add-server-input {
+  width: 225px;
+  height: 30px;
+  border-radius: 4px !important;
+  margin-top: 10px;
+  margin-left: 52px;
+  background: #232323;
+  color: #E8ECED;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  border: 1px solid #818899;
+  text-align: center;
+}
+
+.add-server-input::placeholder {
+  color: #818899;
 }

@@ -18,6 +18,10 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewChecked {
   message: string;
   private docSu$: Subscription;
   scrollHeight = 0;
+  newMessages = 0;
+  isChatVisible = true;
+  hidden = true;
+
   @ViewChild('listOfMessages', {static: false}) private myScrollContainer: ElementRef;
 
   constructor(private fileSocketService: FileSocketService) {
@@ -27,6 +31,10 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.docSu$ = this.fileSocketService.messages.subscribe(message => {
       if (message) {
         this.messages.push(message);
+        if (this.isChatVisible) {
+          this.newMessages++;
+          this.hidden = false;
+        }
       }
     });
   }
@@ -64,4 +72,11 @@ export class MessengerComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
+  onCollapse(): void {
+    if (this.isChatVisible) {
+      this.hidden = true;
+      this.newMessages = 0;
+    }
+    this.isChatVisible = !this.isChatVisible;
+  }
 }

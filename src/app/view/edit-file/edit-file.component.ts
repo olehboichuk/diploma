@@ -100,6 +100,7 @@ export class EditFileComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.docSu$.unsubscribe();
+    this.fileSocketService.disconnectUser(localStorage.getItem('login'));
   }
 
   editDoc(): void {
@@ -108,10 +109,12 @@ export class EditFileComponent implements OnInit, OnDestroy {
 
   addNewFile(): void {
     this.fileSocketService.newFile(this.file);
+    this.fileSocketService.connectUser(localStorage.getItem('login'));
   }
 
   goToChat(): void {
     this.fileSocketService.getFile(this.fileId);
+    this.fileSocketService.connectUser(localStorage.getItem('login'));
   }
 
   copyInputMessage(val: string): void {

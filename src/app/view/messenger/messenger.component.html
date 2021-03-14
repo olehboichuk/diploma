@@ -1,8 +1,12 @@
-<article class="messages">
-  <div #listOfMessages class="message-field">
-    <div *ngIf="messages.length === 0" class="chat">Chat</div>
-    <article class="message" *ngFor="let message of messages" >
-      <section [class]="checkUser(message.user)?'message__user':'message__friend'">
+<article class="messages {{isChatVisible?'hide':''}}">
+  <p>
+    <span matBadgePosition="before" [matBadgeHidden]="hidden" [matBadge]="newMessages" class="collapse" (click)="onCollapse()"
+          matBadgeOverlap="false">Chat{{isChatVisible ? '⮟' : '⮝'}}</span>
+  </p>
+  <div #listOfMessages class="message-field {{isChatVisible?'hide':''}}">
+    <article class="message {{isChatVisible?'hide':''}}" *ngFor="let message of messages">
+      <div class="message__system" *ngIf="message.user === 'system_message'">{{message.message}}</div>
+      <section *ngIf="message.user !== 'system_message'" [class]="checkUser(message.user)?'message__user':'message__friend'">
         <div class="message__content">
           <span class="message__text">{{message.message}}</span>
           <time class="message__time">{{message.time}}</time>
@@ -11,7 +15,9 @@
       </section>
     </article>
   </div>
-  <article class="send-field">
-    <input type="text" class="send-field__input" [(ngModel)]="message" (keyup.enter)="sendMessage(message)" placeholder='Write a message...'>
+  <article class="send-field {{isChatVisible?'hide':''}}">
+    <input type="text" class="send-field__input {{isChatVisible?'hide':''}}" [(ngModel)]="message"
+           (keyup.enter)="sendMessage(message)"
+           placeholder='Write a message...'>
   </article>
 </article>

@@ -4,10 +4,31 @@
   width: 335px;
   bottom: 0;
   position: absolute;
-  height: 350px;
+  height: 50%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  -webkit-transition: all linear 0.3s;
+  -moz-transition: all linear 0.3s;
+  -ms-transition: all linear 0.3s;
+  -o-transition: all linear 0.3s;
+  transition: all linear 0.3s;
+}
+
+.collapse {
+  cursor: pointer;
+  position: absolute;
+  right: 5px;
+  top: -23px;
+  z-index: 9999;
+  color: #8b8378;
+  font-size: 24px;
+  font-variant: all-petite-caps;
+}
+
+.hide {
+  height: 0 !important;
+  padding: 0 !important;
 }
 
 .message__date p {
@@ -42,7 +63,6 @@
   margin-left: 18px;
   cursor: pointer;
   padding: 30px 0px;
-
 }
 
 .send-field__input::placeholder {
@@ -61,19 +81,11 @@
 
 /*----------------------------------------message-field----------------------------------------*/
 
-.chat{
-  position: absolute;
-  top: calc(100% / 2 - 32px);
-  right: calc(100% / 2 - 18px);
-  color: #8b8378;
-  font-size: 37px;
-  font-style: italic;
-  font-variant: all-petite-caps;
-}
-
-
 .message-field {
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  flex: auto;
 }
 
 .message {
@@ -106,6 +118,14 @@
   width: auto;
   background-color: #f7f9fc;
   border-radius: 5px;
+}
+
+.message__system {
+  display: flex;
+  justify-content: center;
+  color: #adadad;
+  font-size: 12px;
+  margin-top: 7px;
 }
 
 .message__friend .message__content::before {
@@ -146,7 +166,7 @@
   bottom: 0;
 }
 
-.message__username{
+.message__username {
   position: absolute;
   left: 5px;
   color: #9ba0ad;
@@ -164,6 +184,7 @@
     mix-blend-mode: normal;
     border-radius: 2px;
   }
+
   &::-webkit-scrollbar-thumb {
     background-color: #171717;
     border-radius: 2px;

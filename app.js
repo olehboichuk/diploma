@@ -2,8 +2,8 @@ const {Client} = require('pg');
 const cookieParser = require('cookie-parser');
 let path = require('path');
 const express = require('express'),
-    app = express(),
-    port = parseInt(process.env.PORT, 10) || 3000;
+  app = express(),
+  port = parseInt(process.env.PORT, 10) || 3000;
 
 let UsersController = require('./middleware/controllers/file/FilesController.js');
 let AuthController = require('./middleware/controllers/auth/AuthController.js');
@@ -23,8 +23,8 @@ app.use('/api/v1', AuthController);
 // Create link to Angular build directory
 app.use(express.static(__dirname + '/dist/diploma'));
 
-app.get('/*', function(req,res) {
-  res.sendFile(path.join(__dirname+'/dist/diploma/index.html'));
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname + '/dist/diploma/index.html'));
 });
 
 const http = require('http').Server(app);
@@ -48,7 +48,6 @@ io.on('connection', socket => {
   socket.on('addFile', doc => {
     documents[doc.file.id] = doc.file;
     safeJoin(doc.file.id);
-    // io.emit('documents', Object.keys(documents));
     socket.emit('file', doc.file);
   });
 
@@ -57,7 +56,25 @@ io.on('connection', socket => {
     socket.to(doc.id).emit('file', doc);
   });
 
-  socket.on('sendMessage', message =>{
+  socket.on('sendMessage', message => {
+    socket.to(previousId).emit('message', message);
+  });
+
+  socket.on('connectUser', user => {
+    const message = {
+      message: `${user} joined this room`,
+      user: 'system_message',
+      time: ''
+    };
+    socket.to(previousId).emit('message', message);
+  });
+
+  socket.on('disconnectUser', user => {
+    const message = {
+      message: `${user} left this room`,
+      user: 'system_message',
+      time: ''
+    };
     socket.to(previousId).emit('message', message);
   });
 
@@ -66,15 +83,15 @@ io.on('connection', socket => {
 
 
 http.listen(port, () => {
-    console.log('Server started on port 3000');
+  console.log('Server started on port 3000');
 });
 
 const client = new Client({
-    connectionString: 'postgres://wixtgkfktbzpov:2d40f9096d22e9ad3bb47ede4f03b45fe77cf98e86ef00a92dc057e083894161@ec2-54-155-35-88.eu-west-1.compute.amazonaws.com:5432/d8i1usb6pfsfg',
-    ssl: { rejectUnauthorized: false },
+  connectionString: 'postgres://wixtgkfktbzpov:2d40f9096d22e9ad3bb47ede4f03b45fe77cf98e86ef00a92dc057e083894161@ec2-54-155-35-88.eu-west-1.compute.amazonaws.com:5432/d8i1usb6pfsfg',
+  ssl: {rejectUnauthorized: false},
 });
 
 client.connect(function (err) {
-    if (err) throw err;
-    console.log("Connected!");
+  if (err) throw err;
+  console.log("Connected!");
 });

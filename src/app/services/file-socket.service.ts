@@ -11,6 +11,16 @@ export class FileSocketService {
   messages = this.socket.fromEvent<IMessageModel>('message');
 
   constructor(private socket: Socket) {
+    this.socket.on('connect', () => this.onConnect());
+    this.socket.on('disconnect', () => this.onDisconnect());
+  }
+
+  async onConnect(): Promise<void> {
+    console.log('connected to backend!');
+  }
+
+  onDisconnect(): void {
+    console.log('disconnected from backend!');
   }
 
   getFile(id: string): void {
@@ -27,6 +37,18 @@ export class FileSocketService {
 
   sendMessage(message: IMessageModel): void {
     this.socket.emit('sendMessage', message);
+  }
+
+  connectUser(user: string): void {
+    this.socket.emit('connectUser', user);
+  }
+
+  disconnectUser(user: string): void {
+    this.socket.emit('disconnectUser', user);
+  }
+
+  disconnect(): void {
+    this.socket.emit('disconnect');
   }
 
 }

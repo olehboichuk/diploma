@@ -1,10 +1,12 @@
 <app-navbar></app-navbar>
-<span>Invite link:</span>
-<span class="selected" (click)="copyInputMessage(file.invite_link)">{{ file.invite_link }}</span>
+<input class="add-server-input" placeholder="File name"
+       [(ngModel)]="file.name">
 <div class="btns">
   <button class="btn-change" [disabled]="!file.properties.save && !owner" (click)="save()">Save</button>
   <button class="btn-change" [disabled]="!file.properties.download && !owner" (click)="download()">Download</button>
 </div>
+<span>Invite link:</span>
+<span class="selected" (click)="copyInputMessage(file.invite_link)">{{ file.invite_link }}</span>
 <div class="settings">
   <span *ngIf="owner">Share settings:</span>
   <div *ngIf="owner" class="editing">
