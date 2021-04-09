@@ -1,17 +1,27 @@
-.example-spacer{
+.example-spacer {
   flex: 1 1 auto;
 }
 
-.logout-btn{
+.logout-btn {
   cursor: pointer;
 }
 
-.user-name{
+.user-name {
   margin-right: 24px;
   font-size: 24px;
 }
 
-.link{
+.not-clickable {
+  margin-left: 10px;
+  font-size: 30px;
+}
+
+.link {
   outline: none;
   cursor: pointer;
+  text-transform: uppercase;
+  color: gray;
+  &:hover{
+    color: white;
+  }
 }
